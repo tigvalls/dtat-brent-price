@@ -1,0 +1,8 @@
+streamlit
+pandas
+scikti-learn
+numpy
+matplotlib
+bs4
+lmxl
+requests
