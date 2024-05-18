@@ -1,8 +1,8 @@
 streamlit
 pandas
-scikti-learn
+scikit-learn
 numpy
 matplotlib
 bs4
-lmxl
+lxml
 requests
