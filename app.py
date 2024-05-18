@@ -7,8 +7,6 @@ import matplotlib.dates as mdates
 import pandas as pd
 import numpy as np
 
-st.markdown("# Modelo preditivo Petróleo Brentado")
-
 with open('modelo_brent.pkl','rb') as file2:
     modelo_brent = joblib.load(file2)
 
@@ -17,20 +15,46 @@ df = pd.read_csv('content/ipea.csv')
 df['Data'] = pd.to_datetime(df['Data'])
 df = df.sort_values(by='Data', ascending=True).reset_index(drop=True)
 
-st.dataframe(df)
+ultimo_preço = df['Preço - petróleo bruto - Brent (FOB)'].iloc[-1:].values 
+penultimo_preço =  df['Preço - petróleo bruto - Brent (FOB)'].iloc[-2:-1].values 
+
+delta_valor = ultimo_preço-penultimo_preço
+
+
+st.set_page_config(
+    page_title="Predição petróleo Brent",
+    page_icon="🧊",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.image('2.png', width = 120)
+
+st.metric(label="Ultimo Preço", value=ultimo_preço, delta= f'{float(delta_valor):.2}')
+
+st.markdown("# Modelo preditivo Petróleo Brent")
+
+st.markdown("#### Preço últimos 7 dias Petróleo")
+
+st.dataframe(df[-7:],hide_index =True)
 
 y_test = np.loadtxt("y_test.txt")
 predictions = np.loadtxt("prediction.txt")
 X = np.loadtxt("X.txt")
 
+
 # Avaliar o modelo
 mse = mean_squared_error(y_test, predictions)
 mae = mean_absolute_error(y_test, predictions)
 
-st.markdown(f'### O Erro quadrado médio é de: {mse:.2f}')
-st.markdown(f'### O Erro absoluto médio é de: {mae:.2f}')
+st.markdown("#### Utilizamos o algoritmo de machine learning Gradient Boosting Regressor")
 
+st.markdown("#### E esses são os resultados:")
 
+st.markdown(f'#### O Erro quadrado médio é de: {mse:.2f}')
+st.markdown(f'#### O Erro absoluto médio é de: {mae:.2f}')
+
+st.markdown("#### Aqui temos em vermelho a previsão dos próximos dias:")
 # Fazer previsões para a próxima semana usando os últimos dados conhecidos
 last_known_data = X[-1].reshape(1, -1)
 next_week_predictions = []
