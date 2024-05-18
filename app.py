@@ -1,3 +1,4 @@
+
 import streamlit as st
 import joblib
 import matplotlib.pyplot as plt
@@ -6,7 +7,7 @@ import matplotlib.dates as mdates
 import pandas as pd
 import numpy as np
 
-st.markdown("# Modelo preditivo Petróleo Brenta")
+st.markdown("# Modelo preditivo Petróleo Brentado")
 
 with open('modelo_brent.pkl','rb') as file2:
     modelo_brent = joblib.load(file2)
